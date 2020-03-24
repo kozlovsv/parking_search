@@ -1,4 +1,5 @@
 import os
+
 import cv2
 from app.camera.loaders.ufanet import UfanetCameraLoader
 
@@ -29,7 +30,7 @@ class CameraManager:
         return os.path.join(self.image_path, cam_name + '.png')
 
     def load_cam_image(self, cam_name):
-        image = self.loader.get_cam_image(cam_name)
+        image = self.loader.get_preview_cam_image(cam_name)
         fname = self.get_image_file_name(cam_name)
         cv2.imwrite(fname, image)
         return fname

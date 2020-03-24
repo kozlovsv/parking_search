@@ -21,11 +21,11 @@ class UfanetCameraLoader:
             r = requests.post('https://ucams.ufanet.ru/api/internal/login/',
                               json={'username': self.user_name, 'password': self.password}, allow_redirects=False)
             r = requests.post(
-                'http://ucams.ufanet.ru/api/v0/cameras/my/'
-                , json={'order_by': 'addr_asc',
-                        'fields': ['number', 'address', 'title', 'tariff', 'inactivity_period', 'permission',
-                                   'is_embed', 'token_l', 'server', 'is_fav'], 'page': 1, 'page_size': 60}
-                , cookies=r.cookies
+                'http://ucams.ufanet.ru/api/v0/cameras/my/',
+                json={'order_by': 'addr_asc',
+                      'fields': ['number', 'address', 'title', 'tariff', 'inactivity_period', 'permission',
+                                 'is_embed', 'token_l', 'server', 'is_fav'], 'page': 1, 'page_size': 60},
+                cookies=r.cookies
             )
             if r.status_code == 401:
                 raise Exception("Неверный логин пароль!")
@@ -65,10 +65,11 @@ class UfanetCameraLoader:
         ts = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
         ts_fname = os.path.join(self.tmp_path, cam_name + '_' + ts + '.mp4')
         open(ts_fname, 'wb').write(r.content)
+        del r
         return ts_fname
 
     def get_preview_cam_image(self, cam_name):
-        preview_fname = self.download_cam_video(cam_name)
+        preview_fname = self.download_preview_cam_video(cam_name)
         try:
             vidcap = cv2.VideoCapture(preview_fname)
             success, image = vidcap.read()
