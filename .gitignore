@@ -1,0 +1,5 @@
+# phpstorm project files
+.idea
+
+/Dockerfile
+/run_flask_server.cmd
