@@ -6,6 +6,7 @@ from app import app
 from app.camera.manager import CameraManager
 from app.helpers import get_cam_imgs_url
 import datetime
+from flask import send_from_directory
 
 
 @app.route('/', methods=['GET'])
@@ -17,3 +18,9 @@ def index():
     imgs = get_cam_imgs_url(app.config['CAMS_IMAGE_FOLDER'])
     salt = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
     return render_template('index.html', imgs=imgs, salt=salt)
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
