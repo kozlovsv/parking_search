@@ -1,13 +1,13 @@
 version: 2
 jobs:
-  build:
-    machine: true
-    steps:
-      - checkout
-      - run: |
-          docker build -t kozlovsv78/parking .
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push kozlovsv78/parking
+  #build:
+  #  machine: true
+  #  steps:
+  #    - checkout
+  #    - run: |
+  #        docker build -t kozlovsv78/parking .
+  #        docker login -u $DOCKER_USER -p $DOCKER_PASS
+  #        docker push kozlovsv78/parking
   deploy:
     machine: true
     steps:
@@ -17,15 +17,20 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            ssh $SSH_USER@$SSH_HOST "cd /"
+            ssh $SSH_USER@$SSH_HOST <<'ENDSSH'
+              docker pull kozlovsv78/parking
+              docker stop parking
+              docker rm parking
+              docker run -v $PWD:/app -p 80:80 --name=parking --restart=always -d --rm --env UFANET_USER_NAME=$UFANET_USER_NAME --env UFANET_USER_PASSWORD=$UFANET_USER_PASSWORD kozlovsv78/parking
+              ENDSSH
 workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
+  #    - build
       - deploy:
-          requires:
-            - build
+  #        requires:
+  #          - build
           filters:
             branches:
               only: master # only deploy on the master branch
