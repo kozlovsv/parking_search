@@ -4,8 +4,6 @@ jobs:
     machine: true
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - run: |
           docker build -t kozlovsv78/parking .
           docker login -u $DOCKER_USER -p $DOCKER_PASS
