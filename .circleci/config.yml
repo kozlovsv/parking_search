@@ -8,6 +8,9 @@ jobs:
           fingerprints:
             - "3c:e8:6e:a2:f6:7f:f4:dd:29:33:bc:24:33:28:a7:4c"
       - run:
+          name: fix host authenticity for production server
+          command: ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+      - run:
           name: Deploy Over SSH
           command: |
             ssh $SSH_USER@$SSH_HOST "cd /; mkdir project"
