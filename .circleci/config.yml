@@ -1,8 +1,17 @@
 version: 2
 jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: |
+          docker build -t kozlovsv78/parking .
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker push kozlovsv78/parking
   deploy:
-    machine:
-      enabled: true
+    machine: true
     steps:
       - run:
           name: fix host authenticity for production server
@@ -10,12 +19,14 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            ssh $SSH_USER@$SSH_HOST "cd /; mkdir project"
+            ssh $SSH_USER@$SSH_HOST "cd /"
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - deploy:
+          requires:
+            - build
           filters:
             branches:
               only: master # only deploy on the master branch

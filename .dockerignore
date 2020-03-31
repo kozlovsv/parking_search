@@ -1,4 +1,11 @@
+.circleci/
 .git/
 .idea/
-__pycache__
+__pycache__/
+**/*.pyc
 app/static/cam_img/*
+.gitignore
+Dockerfile
+.dockerignore
+*.cmd
+*.sh
