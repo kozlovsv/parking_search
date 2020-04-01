@@ -1,13 +1,13 @@
 version: 2
 jobs:
-  #build:
-  #  machine: true
-  #  steps:
-  #    - checkout
-  #    - run: |
-  #        docker build -t kozlovsv78/parking .
-  #        docker login -u $DOCKER_USER -p $DOCKER_PASS
-  #        docker push kozlovsv78/parking
+  build:
+    machine: true
+    steps:
+      - checkout
+      - run: |
+          docker build -t kozlovsv78/parking .
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker push kozlovsv78/parking
   deploy:
     machine: true
     steps:
@@ -27,10 +27,10 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-  #    - build
+      - build
       - deploy:
-  #        requires:
-  #          - build
+          requires:
+            - build
           filters:
             branches:
               only: master # only deploy on the master branch
