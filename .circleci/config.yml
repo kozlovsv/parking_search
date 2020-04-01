@@ -21,7 +21,7 @@ jobs:
             docker pull kozlovsv78/parking
             docker stop parking
             docker rm parking
-            docker run -p 80:80 --name=parking --restart=always -d --net=host --env UFANET_USER_NAME=$UFANET_USER_NAME --env UFANET_USER_PASSWORD=$UFANET_USER_PASSWORD kozlovsv78/parking
+            docker run --name=parking --restart=always -d --net=host --env UFANET_USER_NAME=$UFANET_USER_NAME --env UFANET_USER_PASSWORD=$UFANET_USER_PASSWORD kozlovsv78/parking
             EOF
 workflows:
   version: 2
