@@ -38,3 +38,12 @@ class CameraManager:
     def load_all_cam_images(self):
         for cam_name in need_cams.keys():
             self.load_cam_image(cam_name)
+
+    def load_cam_screen(self, cam_name):
+        fname = self.get_image_file_name(cam_name)
+        self.loader.download_screen_cam_image(cam_name, fname)
+        return fname
+
+    def load_all_cam_screen(self):
+        for cam_name in need_cams.keys():
+            self.load_cam_screen(cam_name)

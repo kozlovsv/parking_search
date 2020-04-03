@@ -14,7 +14,7 @@ from flask import send_from_directory
 def index():
     manager = CameraManager(os.path.join(app.root_path, 'static', app.config['CAMS_IMAGE_FOLDER']),
                             os.path.join(app.instance_path, 'runtime'))
-    manager.load_all_cam_images()
+    manager.load_all_cam_screen()
     imgs = get_cam_imgs_url(app.config['CAMS_IMAGE_FOLDER'])
     salt = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
     return render_template('index.html', imgs=imgs, salt=salt)
