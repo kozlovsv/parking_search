@@ -1,8 +1,8 @@
 from flask import url_for
 from glob import glob
 import os
-from app import app
-from app.camera.manager import need_cams
+from flask import current_app as app
+from parking.camera.manager import need_cams
 
 
 def get_cam_imgs_url(path, ext='png'):

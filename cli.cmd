@@ -1,1 +1,1 @@
-docker exec -it parking bash
+docker exec -it parking mc

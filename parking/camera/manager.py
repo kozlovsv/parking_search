@@ -1,7 +1,8 @@
 import os
 
 import cv2
-from app.camera.loaders.ufanet import UfanetCameraLoader
+
+from parking.camera.loaders.ufanet import UfanetCameraLoader
 
 need_cams = {
     '1515376745BBP372': 'Подъезд 4. Мусорка',
@@ -45,5 +46,7 @@ class CameraManager:
         return fname
 
     def load_all_cam_screen(self):
+        fnames = []
         for cam_name in need_cams.keys():
-            self.load_cam_screen(cam_name)
+            fnames.append(self.load_cam_screen(cam_name))
+        return fnames

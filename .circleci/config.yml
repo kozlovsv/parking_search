@@ -4,25 +4,27 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: |
-          docker build -t kozlovsv78/parking .
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push kozlovsv78/parking
+#      - run: |
+#          docker-compose -f docker-compose.ci.yml build
+#          docker login -u $DOCKER_USER -p $DOCKER_PASS
+#          docker-compose -f docker-compose.ci.yml push --ignore-push-failures
   deploy:
+    working_directory: ~/repo
     machine: true
     steps:
       - run:
           name: fix host authenticity for production server
           command: ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
       - run:
-          name: Deploy Over SSH
-          command: |
-            ssh $SSH_USER@$SSH_HOST << EOF
-            docker pull kozlovsv78/parking
-            docker stop parking
-            docker rm parking
-            docker run --name=parking --restart=always -d --net=host --env UFANET_USER_NAME=$UFANET_USER_NAME --env UFANET_USER_PASSWORD=$UFANET_USER_PASSWORD kozlovsv78/parking
-            EOF
+          name: Copy docker-compose
+          command: scp docker-compose.ci.yml $SSH_USER@$SSH_HOST:/opt/parking/docker-compose.yml
+#      - run:
+#          name: Deploy Over SSH
+#          command: |
+#            ssh $SSH_USER@$SSH_HOST << EOF
+#            docker-compose -f docker-compose.ci.yml pull
+#            docker-compose -f docker-compose.ci.yml -d up
+#            EOF
 workflows:
   version: 2
   build-and-deploy:

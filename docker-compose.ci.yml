@@ -1,0 +1,39 @@
+version: '3'
+services:
+  app:
+    image: kozlovsv78/parking
+    container_name: parking
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    command: gunicorn -b unix:/tmp/socket/gunicorn.sock -w 3 wsgi:app
+    volumes:
+      - static_volume:/opt/parking/parking/static
+      - gunicorn_socket:/tmp/socket
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
+    env_file:
+      - ./.env
+  nginx:
+      image: kozlovsv78/parking-nginx
+      container_name: nginx
+      build:
+        context: .
+        dockerfile: ./docker/Dockerfile-nginx
+      volumes:
+        - static_volume:/opt/parking/parking/static
+        - gunicorn_socket:/tmp/socket
+      deploy:
+        restart_policy:
+          condition: on-failure
+      ports:
+        - 80:80
+      depends_on:
+        - app
+volumes:
+  static_volume:
+  gunicorn_socket:

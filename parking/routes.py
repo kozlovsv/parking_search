@@ -2,11 +2,11 @@
 import os
 
 from flask import render_template
-from app import app
-from app.camera.manager import CameraManager
-from app.helpers import get_cam_imgs_url
+from flask import current_app as app
+from parking.camera.manager import CameraManager
 import datetime
 from flask import send_from_directory
+from parking.helpers import get_cam_imgs_url
 
 
 @app.route('/', methods=['GET'])
