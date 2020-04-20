@@ -33,8 +33,7 @@ jobs:
           command: |
             ssh $SSH_USER@$SSH_HOST << EOF
             cd $REMOTE_APP_DIR
-            docker-compose -f docker-compose.ci.yml pull
-            docker-compose -f docker-compose.ci.yml -d up
+            docker stack deploy --compose-file docker-compose.yml parking
             EOF
 workflows:
   version: 2

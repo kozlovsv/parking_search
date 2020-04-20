@@ -2,10 +2,6 @@ version: '3'
 services:
   app:
     image: kozlovsv78/parking
-    container_name: parking
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
     command: gunicorn -b unix:/tmp/socket/gunicorn.sock -w 3 wsgi:app
     volumes:
       - static_volume:/opt/parking/parking/static
@@ -20,10 +16,6 @@ services:
       - ./.env
   nginx:
       image: kozlovsv78/parking-nginx
-      container_name: nginx
-      build:
-        context: .
-        dockerfile: ./docker/Dockerfile-nginx
       volumes:
         - static_volume:/opt/parking/parking/static
         - gunicorn_socket:/tmp/socket
