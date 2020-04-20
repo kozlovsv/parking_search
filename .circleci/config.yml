@@ -26,7 +26,7 @@ jobs:
           command: |
             ssh $SSH_USER@$SSH_HOST << EOF
             mv -f $REMOTE_APP_DIR\docker-compose.ci.yml $REMOTE_APP_DIR\docker-compose.yml
-            echo "UFANET_USER_NAME=$UFANET_USER_NAME\nUFANET_USER_PASSWORD=$UFANET_USER_PASSWORD" > $REMOTE_APP_DIR.env
+            printf "UFANET_USER_NAME=$UFANET_USER_NAME\nUFANET_USER_PASSWORD=$UFANET_USER_PASSWORD" > $REMOTE_APP_DIR.env
             EOF
 #      - run:
 #          name: Deploy Over SSH
