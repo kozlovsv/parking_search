@@ -2,6 +2,9 @@ version: '3'
 services:
   app:
     image: kozlovsv78/parking
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
     command: gunicorn -b unix:/tmp/socket/gunicorn.sock -w 3 wsgi:app
     volumes:
       - static_volume:/opt/parking/parking/static
@@ -9,6 +12,9 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
     environment:
       - FLASK_ENV=production
       - FLASK_DEBUG=0
@@ -16,12 +22,18 @@ services:
       - ./.env
   nginx:
       image: kozlovsv78/parking-nginx
+      build:
+        context: .
+        dockerfile: ./docker/Dockerfile-nginx
       volumes:
         - static_volume:/opt/parking/parking/static
         - gunicorn_socket:/tmp/socket
       deploy:
         restart_policy:
           condition: on-failure
+          delay: 5s
+          max_attempts: 3
+          window: 120s
       ports:
         - 80:80
       depends_on:
