@@ -4,10 +4,10 @@ jobs:
     machine: true
     steps:
       - checkout
-#      - run: |
-#          docker-compose -f docker-compose.ci.yml build
-#          docker login -u $DOCKER_USER -p $DOCKER_PASS
-#          docker-compose -f docker-compose.ci.yml push --ignore-push-failures
+      - run: |
+          docker-compose -f docker-compose.ci.yml build
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker-compose -f docker-compose.ci.yml push --ignore-push-failures
   deploy:
     machine: true
     steps:
@@ -28,13 +28,14 @@ jobs:
             mv -f $REMOTE_APP_DIR\docker-compose.ci.yml $REMOTE_APP_DIR\docker-compose.yml
             printf "UFANET_USER_NAME=$UFANET_USER_NAME\nUFANET_USER_PASSWORD=$UFANET_USER_PASSWORD" > $REMOTE_APP_DIR.env
             EOF
-#      - run:
-#          name: Deploy Over SSH
-#          command: |
-#            ssh $SSH_USER@$SSH_HOST << EOF
-#            docker-compose -f docker-compose.ci.yml pull
-#            docker-compose -f docker-compose.ci.yml -d up
-#            EOF
+      - run:
+          name: Deploy Over SSH
+          command: |
+            ssh $SSH_USER@$SSH_HOST << EOF
+            cd $REMOTE_APP_DIR
+            docker-compose -f docker-compose.ci.yml pull
+            docker-compose -f docker-compose.ci.yml -d up
+            EOF
 workflows:
   version: 2
   build-and-deploy:
