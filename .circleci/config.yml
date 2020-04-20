@@ -11,7 +11,7 @@ jobs:
   deploy:
     machine: true
     steps:
-#      - checkout
+      - checkout
       - run:
           name: fix host authenticity for production server
           command: ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
@@ -21,6 +21,14 @@ jobs:
       - run:
           name: Copy docker-compose
           command: scp docker-compose.ci.yml $SSH_USER@$SSH_HOST:/opt/parking
+      - run:
+          name: Make env File
+          command: |
+            ssh $SSH_USER@$SSH_HOST << EOF
+            content_server='UFANET_USER_NAME=$UFANET_USER_NAME\n'
+            content_server=$content_server'UFANET_USER_PASSWORD=$UFANET_USER_PASSWORD'
+            printf "$content_server" > /opt/parking/.env
+            EOF
 #      - run:
 #          name: Deploy Over SSH
 #          command: |
