@@ -17,17 +17,16 @@ jobs:
           command: ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
       - run:
           name: Make Project Dir
-          command: ssh $SSH_USER@$SSH_HOST mkdir -p /opt/parking/
+          command: ssh $SSH_USER@$SSH_HOST mkdir -p $REMOTE_APP_DIR
       - run:
           name: Copy docker-compose
-          command: scp docker-compose.ci.yml $SSH_USER@$SSH_HOST:/opt/parking
+          command: scp docker-compose.ci.yml $SSH_USER@$SSH_HOST:$REMOTE_APP_DIR
       - run:
           name: Make env File
           command: |
             ssh $SSH_USER@$SSH_HOST << EOF
-            content_server='UFANET_USER_NAME=$UFANET_USER_NAME\n'
-            content_server=$content_server'UFANET_USER_PASSWORD=$UFANET_USER_PASSWORD'
-            printf "$content_server" > /opt/parking/.env
+            mv -f $REMOTE_APP_DIR\docker-compose.ci.yml $REMOTE_APP_DIR\docker-compose.yml
+            echo "UFANET_USER_NAME=$UFANET_USER_NAME\nUFANET_USER_PASSWORD=$UFANET_USER_PASSWORD" > $REMOTE_APP_DIR.env
             EOF
 #      - run:
 #          name: Deploy Over SSH
