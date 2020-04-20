@@ -9,9 +9,9 @@ jobs:
 #          docker login -u $DOCKER_USER -p $DOCKER_PASS
 #          docker-compose -f docker-compose.ci.yml push --ignore-push-failures
   deploy:
-    working_directory: ~/repo
     machine: true
     steps:
+      - checkout
       - run:
           name: fix host authenticity for production server
           command: ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
