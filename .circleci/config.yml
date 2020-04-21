@@ -33,7 +33,9 @@ jobs:
           command: |
             ssh $SSH_USER@$SSH_HOST << EOF
             cd $REMOTE_APP_DIR
-            docker stack deploy --compose-file docker-compose.yml parking
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker-compose pull
+            docker-compose up -d
             EOF
 workflows:
   version: 2
