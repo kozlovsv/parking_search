@@ -7,7 +7,8 @@
     <!-- Icon -->
     <link rel="icon" href="{{ url_for('.static', filename='img/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
-    {{ super() }}
+    <link href="{{bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap')}}" rel="stylesheet">
+    <link href="//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block navbar %}
@@ -31,13 +32,12 @@
     <footer class="footer">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm">
+                <div class="col-10">
                     <div class="text-left">
-                        © 2020 Copyright:
-                        <a href="http://linosoft.ru/"> Linosoft</a>
+                        © 2020:<a href="http://linosoft.ru/"> Linosoft</a>
                     </div>
                 </div>
-                <div class="col-sm">
+                <div class="col-2">
                     <div class="text-right">
                         {{ g.request_time() }}
                     </div>
