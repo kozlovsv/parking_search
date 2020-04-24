@@ -35,6 +35,7 @@ jobs:
             cd $REMOTE_APP_DIR
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker-compose pull
+            docker-compose down -v -f
             docker-compose up -d
             docker system prune -a -f
             EOF

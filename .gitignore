@@ -1,3 +1,4 @@
 # phpstorm project files
 .idea
 *.env
+/parking/static/cam_img/
