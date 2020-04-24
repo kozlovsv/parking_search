@@ -36,6 +36,7 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker-compose pull
             docker-compose up -d
+            docker system prune -a -f
             EOF
 workflows:
   version: 2

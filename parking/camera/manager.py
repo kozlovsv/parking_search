@@ -1,8 +1,8 @@
 import os
-
 import cv2
 
 from parking.camera.loaders.ufanet import UfanetCameraLoader
+from parking.helpers import image_resize
 
 need_cams = {
     '1515376745BBP372': 'Подъезд 4. Мусорка',
@@ -30,15 +30,20 @@ class CameraManager:
     def get_image_file_name(self, cam_name):
         return os.path.join(self.image_path, cam_name + '.png')
 
-    def load_cam_image(self, cam_name):
+    def load_cam_image(self, cam_name, width=None):
         image = self.loader.get_preview_cam_image(cam_name)
+        if width is not None:
+            image = image_resize(image, width=width)
         fname = self.get_image_file_name(cam_name)
         cv2.imwrite(fname, image)
         return fname
 
-    def load_all_cam_images(self):
+    def load_all_cam_images(self, width=None):
+        imgs = []
         for cam_name in need_cams.keys():
-            self.load_cam_image(cam_name)
+            imgs.append({'cam_name': cam_name, 'title': need_cams[cam_name],
+                         'fname': self.load_cam_image(cam_name, width=width)})
+        return imgs
 
     def load_cam_screen(self, cam_name):
         fname = self.get_image_file_name(cam_name)
@@ -49,4 +54,10 @@ class CameraManager:
         fnames = []
         for cam_name in need_cams.keys():
             fnames.append(self.load_cam_screen(cam_name))
+        return fnames
+
+    def get_all_cam_screen_url(self):
+        fnames = []
+        for cam_name in need_cams.keys():
+            fnames.append({'url': self.loader.get_screen_cam_image_url(cam_name), 'title': need_cams[cam_name]})
         return fnames

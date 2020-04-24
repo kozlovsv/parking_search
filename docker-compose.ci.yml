@@ -2,7 +2,7 @@ version: '3'
 services:
   app:
     image: kozlovsv78/parking
-    container_name: parking
+    container_name: parking-app
     build:
       context: .
       dockerfile: ./docker/Dockerfile

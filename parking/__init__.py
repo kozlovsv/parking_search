@@ -22,4 +22,3 @@ def create_app(config_class=Config):
         from parking import routes, errors
 
     return app
-

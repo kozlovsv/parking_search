@@ -5,25 +5,45 @@
 {% endblock %}
 {% block styles %}
     <!-- Icon -->
-    <link rel="icon" href="{{url_for('.static', filename='favicon.ico')}}" type="image/x-icon">
-    {{super()}}
+    <link rel="icon" href="{{ url_for('.static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+    {{ super() }}
 {% endblock %}
 
 {% block navbar %}
-    
+    {% include 'includes/menu.html' %}
 {% endblock %}
 
 {% block content %}
     <div class="container">
         {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-info" role="alert">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
         {% endwith %}
 
         {# содержимое приложения которое должно быть предоставлено в блоке app_content #}
         {% block app_content %}{% endblock %}
     </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="text-left">
+                        © 2020 Copyright:
+                        <a href="http://linosoft.ru/"> Linosoft</a>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="text-right">
+                        {{ g.request_time() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer -->
 {% endblock %}

@@ -98,3 +98,7 @@ class UfanetCameraLoader:
         screen_url = f"http://{cam['screenshot_domain']}/api/v0/screenshots/{cam_name}~400.jpg?token={cam['token']}"
         r = requests.get(screen_url, allow_redirects=True)
         open(fname, 'wb').write(r.content)
+
+    def get_screen_cam_image_url(self, cam_name):
+        cam = self.cams[cam_name]
+        return f"http://{cam['screenshot_domain']}/api/v0/screenshots/{cam_name}~400.jpg?token={cam['token']}"
