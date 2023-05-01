@@ -1,4 +1,4 @@
-Flask==1.1.1
+Flask==2.3.2
 Flask-Bootstrap4==4.0.2
 Flask-WTF==0.14.2
 m3u8==0.5.4
