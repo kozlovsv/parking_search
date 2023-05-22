@@ -3,6 +3,6 @@ Flask-Bootstrap4==4.0.2
 Flask-WTF==0.14.2
 m3u8==0.5.4
 opencv-python-headless==4.2.0.32
-requests==2.23.0
+requests==2.31.0
 gunicorn==20.0.4
 python-dotenv==0.12.0
